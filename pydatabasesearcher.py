@@ -27,29 +27,29 @@ with con:
 	for row in rows:
 		p=row[0] #we should probably only be getting 1 Id at a time
 	print p
-while i == 0:
-	gpio.output(5,0)
-	sleep(.1)
-	gpio.output(5,1)
-	print "reading..."
-	for a in range(2):
-		r=ser.readline()
-		s.append(r)
-		print r
-	#maybe change this part a bit so that only the Id get stored, instead of Id and side
-	if '[Id]' in s:
-		print 'exists'
-		name ='' #may change this portion as well, alter string formatting of both so make more compatible
-		print name
-		if name in p:
-			print 'EXISTS'
-	else:
+	while i == 0:
 		gpio.output(5,0)
 		sleep(.1)
 		gpio.output(5,1)
-		sleep(.1)
-		gpio.output(5,0)
-		sleep(.1)
-		gpio.output(5,1)
-i=1		
+		print "reading..."
+		for a in range(2):
+			r=ser.readline()
+			s.append(r)
+			print r
+		#maybe change this part a bit so that only the Id get stored, instead of Id and side
+		if '[Id]' in s:
+			print 'exists'
+			name ='' #may change this portion as well, alter string formatting of both so make more compatible
+			print name
+			if name in p:
+				print 'EXISTS'
+		else:
+			gpio.output(5,0)
+			sleep(.1)
+			gpio.output(5,1)
+			sleep(.1)
+			gpio.output(5,0)
+			sleep(.1)
+			gpio.output(5,1)
+	i=1		
 print "done"
