@@ -22,11 +22,12 @@ i = 0
 con = mdb.connect('localhost','root','foosball','foosball');
 with con:
 	cur = con.cursor()
-	cur.execute('select Id from name_hex_data where [condition]')
+	cur.execute('select Id from name_hex_data')
 	rows = cur.fetchall()
 	for row in rows:
-		p=row[0] #we should probably only be getting 1 Id at a time
+		p=p.append(row[0]) #gathers all Ids from name_hex_data
 	print p
+	
 	while i == 0:
 		gpio.output(5,0)
 		sleep(.1)
@@ -34,15 +35,17 @@ with con:
 		print "reading..."
 		for a in range(2):
 			r=ser.readline()
-			s.append(r)
+			s.append(r) #reads output from arduino, including side and card Id
 			print r
 		#maybe change this part a bit so that only the Id get stored, instead of Id and side
-		if '[Id]' in s:
+		
+		if s in p: #check to see if the card has an Id on file
 			print 'exists'
-			name ='' #may change this portion as well, alter string formatting of both so make more compatible
+			cur.execute('insert into name_game_data(playerID) values(p)') #this doesn't seem quite right, since we're associating the playerID, not the card Id
+			"""name ='' #may change this portion as well, alter string formatting of both so make more compatible
 			print name
 			if name in p:
-				print 'EXISTS'
+				print 'EXISTS'"""
 		else:
 			gpio.output(5,0)
 			sleep(.1)
