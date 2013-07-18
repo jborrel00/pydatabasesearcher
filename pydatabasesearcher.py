@@ -22,7 +22,7 @@ i = 0
 con = mdb.connect('localhost','root','foosball','foosball');
 with con:
 	cur = con.cursor()
-	cur.execute('select name from Name_hex_data')
+	cur.execute('select name from name_hex_data')
 	rows = cur.fetchall()
 	for row in rows:
 		p.append(row[0])
