@@ -3,7 +3,7 @@ import serial
 import MySQLdb as mdb
 from time import sleep
 import glob
-
+gpio.setwarnings(False)
 gpio.setmode(gpio.BOARD)
 gpio.setup(5,gpio.OUT)
 gpio.output(5,0)
@@ -22,23 +22,24 @@ i = 0
 con = mdb.connect('localhost','root','foosball','foosball');
 with con:
 	cur = con.cursor()
-	cur.execute('select name from name_hex_data')
+	cur.execute('select Id from name_hex_data where [condition]')
 	rows = cur.fetchall()
 	for row in rows:
-		p.append(row[0])
+		p=row[0] #we should probably only be getting 1 Id at a time
 	print p
 while i == 0:
 	gpio.output(5,0)
 	sleep(.1)
 	gpio.output(5,1)
 	print "reading..."
-	for a in range(11):
+	for a in range(2):
 		r=ser.readline()
 		s.append(r)
 		print r
-	if 'Joe\r\n' in s:
+	#maybe change this part a bit so that only the Id get stored, instead of Id and side
+	if '[Id]' in s:
 		print 'exists'
-		name ='Joe'
+		name ='' #may change this portion as well, alter string formatting of both so make more compatible
 		print name
 		if name in p:
 			print 'EXISTS'
