@@ -35,17 +35,14 @@ with con:
 		print "reading..."
 		for a in range(2):
 			r=ser.readline()
-			s.append(r) #reads output from arduino, including side and card Id
-			print r
-		#maybe change this part a bit so that only the Id get stored, instead of Id and side
-		
+			s.append(r.rstrip()) #reads output from arduino, including side - s[0] -  and card Id - s[1]
+			print int(r,16)
+			s = int(s[1],16)
+				
 		if s in p: #check to see if the card has an Id on file
-			print 'exists'
-			cur.execute('insert into name_game_data(playerID) values(p)') #this doesn't seem quite right, since we're associating the playerID, not the card Id
-			"""name ='' #may change this portion as well, alter string formatting of both so make more compatible
-			print name
-			if name in p:
-				print 'EXISTS'"""
+			print 'exists in name_hex_data'
+			cur.execute('update unnamed_table set unnamed_value = '+s+'')
+			
 		else:
 			gpio.output(5,0)
 			sleep(.1)
@@ -54,5 +51,5 @@ with con:
 			gpio.output(5,0)
 			sleep(.1)
 			gpio.output(5,1)
-	i=1		
+	i=1 #may attach to positive if section only so that the code keeps looping until it finds what it wants		
 print "done"
