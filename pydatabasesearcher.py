@@ -41,7 +41,7 @@ with con:
 				
 		if s in p: #check to see if the card has an Id on file
 			print 'exists in name_hex_data'
-			cur.execute('update unnamed_table set unnamed_value = '+s+'')
+			cur.execute('update unnamed_table set unnamed_value = '+s)
 			
 		else:
 			gpio.output(5,0)
