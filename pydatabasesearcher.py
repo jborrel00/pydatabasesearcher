@@ -39,7 +39,7 @@ with con:
 			print int(r,16)
 			s = int(s[1],16)
 				
-		if s in p: #check to see if the card has an Id on file
+		if s[1] in p: #check to see if the card has an Id on file
 			print 'exists in name_hex_data'
 			cur.execute('update current_card set current_ID = '+s)
 			
